@@ -7,23 +7,38 @@ import {
   Link
 } from "react-router-dom";
 import Detail from './detail';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/todos`
+        );
+        if (!response.ok) {
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}`
+          );
+        }
+        let actualData = await response.json();
+        setData(actualData);
+        setError(null);
+      } catch(err) {
+        // setError(err.message);
+        setData(null);
+      } finally {
+        setLoading(false);
+      }  
+    }
+    getData()
+  }, [])
+
   return (
-
-    // <div>
-    //   <ul>
-    //     <li>
-    //       <Link to="/">Home</Link>
-    //     </li>
-    //     <li>
-    //       <Link to="/detail">Detail</Link>
-    //     </li>
-    //   </ul>
-
-    //   <hr />
-    // </div>
-
     
     <div>
       <h1>Bookkeeper</h1>
@@ -36,34 +51,6 @@ function App() {
         <Link to="/detail">Detail</Link> 
       </nav>
     </div>
-
-    // <Router>
-    //   <div>
-    //     <ul>
-    //       <li>
-    //         <Link to="/">Home</Link>
-    //       </li>
-    //       <li>
-    //         <Link to="/detail">Detail</Link>
-    //       </li>
-    //     </ul>
-
-    //     <hr />
-
-    //     {/*
-    //       A <Switch> looks through all its children <Route>
-    //       elements and renders the first one whose path
-    //       matches the current URL. Use a <Switch> any time
-    //       you have multiple routes, but you want only one
-    //       of them to render at a time
-    //     */}
-    //     {/* <Routes>
-    //       <Route path="/detail">
-    //         <Detail />
-    //       </Route>
-    //     </Routes> */}
-    //   </div>
-    // </Router>
   );
 }
 
