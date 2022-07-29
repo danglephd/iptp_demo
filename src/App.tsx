@@ -7,6 +7,7 @@ import {
   Link
 } from "react-router-dom";
 import Detail from './detail';
+import MTTable from './MTTable';
 
 function App() {
   return (    
@@ -20,6 +21,11 @@ function App() {
       >
         <Link to="/detail">Detail</Link> 
       </nav>
+      
+    <div style={{ padding: '30px' }}>
+      <h1>Material Table Example</h1>
+      <MTTable />
+    </div>
     </div>
   );
 }
